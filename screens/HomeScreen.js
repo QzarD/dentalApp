@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {SectionList, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {SectionList, StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import Appointment from "../components/Appointment";
 import ButtonPlus from "../components/ButtonPlus";
 import appointmentsApi from "../api/appointments";
 import Swipeable from 'react-native-swipeable-row';
 import {Ionicons} from '@expo/vector-icons';
 
-export default function HomeScreen({navigation}) {
+const HomeScreen=({navigation})=> {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [lastUpdateTime, setlastUpdateTime] = useState(null);
@@ -30,16 +30,16 @@ export default function HomeScreen({navigation}) {
     // TODO: Продумать удаление приемов
     const removeAppointment = id => {
         Alert.alert(
-            'Удаление приема',
-            'Вы действительно хотите удалить прием?',
+            'Delete Reception',
+            'Are you sure you want to delete the appointment?',
             [
                 {
-                    text: 'Отмена',
+                    text: 'Cancel',
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel'
                 },
                 {
-                    text: 'Удалить',
+                    text: 'OK',
                     onPress: () => {
                         setIsLoading(true);
                         appointmentsApi
@@ -88,7 +88,7 @@ export default function HomeScreen({navigation}) {
                     )}
                 />
             )}
-            <ButtonPlus onPress={navigation.navigate.bind(this, 'AddPatient')}/>
+            <ButtonPlus onPress={navigation.navigate.bind(this, 'Patients', {isAddAppointment: true})}/>
         </View>
     );
 }
@@ -119,3 +119,22 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     }
 });
+
+HomeScreen.navigationOptions = ({ navigation }) => ({
+    title: 'Reception Journal',
+    headerTintColor: '#2A86FF',
+    headerStyle: {
+        elevation: 0.8,
+        shadowOpacity: 0.8
+    },
+    headerRight: () => (
+        <TouchableOpacity
+            onPress={navigation.navigate.bind(this, 'Patients')}
+            style={{ marginRight: 20 }}
+        >
+            <Ionicons name="md-people" size={28} color="black" />
+        </TouchableOpacity>
+    )
+});
+
+export default HomeScreen;

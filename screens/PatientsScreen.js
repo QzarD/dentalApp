@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, FlatList, Alert} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import Swipeable from 'react-native-swipeable-row';
 import patientsApi from "../api/patients";
@@ -32,16 +32,16 @@ export default function PatientScreen({navigation}) {
     };
     const removePatient = id => {
         Alert.alert(
-            'Удаление приема',
-            'Вы действительно хотите удалить прием?',
+            'Delete Reception',
+            'Are you sure you want to delete the reception?',
             [
                 {
-                    text: 'Отмена',
+                    text: 'Cancel',
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel'
                 },
                 {
-                    text: 'Удалить',
+                    text: 'OK',
                     onPress: () => {
                         setIsLoading(true);
                         patientsApi
@@ -63,9 +63,9 @@ export default function PatientScreen({navigation}) {
         <View style={{flex: 1}}>
             {data && (
                 <>
-                    <View style={{padding: 20}}>
-                        <Item style={{paddingLeft: 15, borderRadius: 30}} regular>
-                            <Input onChange={onSearch} placeholder="Поиск..."/>
+                    <View style={{margin: 20}}>
+                        <Item style={{paddingLeft: 15, borderRadius: 30, paddingBottom: 10}} regular>
+                            <Input onChange={onSearch} placeholder="Search..."/>
                         </Item>
                     </View>
                     <FlatList
@@ -94,6 +94,7 @@ export default function PatientScreen({navigation}) {
                             >
                                 <Appointment
                                     navigate={navigation.navigate}
+                                    isAddAppointment={navigation.getParam('isAddAppointment')}
                                     item={{
                                         patient: item,
                                         diagnosis: phoneFormat(item.phone)

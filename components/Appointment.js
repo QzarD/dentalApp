@@ -1,12 +1,19 @@
 import React from 'react';
 import {StyleSheet, Image, Text, View, TouchableOpacity} from 'react-native';
 import getAvatarColor from "../utils/getAvatarColor";
+import Badge from "./Badge";
 
-export default function Appointment({navigate, item}) {
-    const {patient, diagnosis, active, time} = item;
+export default function Appointment({isAddAppointment, navigate, item}) {
+    const {patient, diagnosis, active, time, price} = item;
     const avatarColors = getAvatarColor(patient.fullname[0].toUpperCase());
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Patient', item)}
+        <TouchableOpacity onPress={() => {
+            if (isAddAppointment){
+                navigate('AddAppointment', {patientId:patient._id})
+            } else {
+                navigate('Patient', item)
+            }
+        }}
                           style={styles.container}>
             <View style={[styles.avatar, {backgroundColor: avatarColors.background}]}>
                 <Text style={[styles.letter, {color: avatarColors.color}]}>
@@ -17,6 +24,10 @@ export default function Appointment({navigate, item}) {
                 <Text style={styles.fullname}>{patient.fullname}</Text>
                 <Text style={styles.diagnosis}>{diagnosis}</Text>
             </View>
+            {price && <Badge color='green' style={[styles.time, active && styles.activeTime]}>
+                {price}
+            </Badge>
+            }
             {time && <Text active={active} style={[styles.time, active && styles.activeTime]}>
                 {time}
             </Text>

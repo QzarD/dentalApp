@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { NavigationActions } from 'react-navigation';
 import {StyleSheet, Text, View} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Item, Input, Label, Picker } from 'native-base';
 import DatePicker from 'react-native-datepicker';
-import { appointmentsApi } from '../api/appointments';
+import appointmentsApi from '../api/appointments';
 import MyButton from "../components/MyButton";
 
 export default function AddAppointmentScreen ({ navigation }) {
     const [values, setValues] = useState({
-        diagnosis: 'пульпит',
+        diagnosis: 'Pulpitis',
         dentNumber: '',
         price: '',
         date: null,
@@ -18,11 +17,11 @@ export default function AddAppointmentScreen ({ navigation }) {
     });
 
     const fieldsName = {
-        diagnosis: 'Диагноз',
-        dentNumber: 'Номер зуба',
-        price: 'Цена',
-        date: 'Дата',
-        time: 'Время'
+        diagnosis: 'Diagnosis',
+        dentNumber: 'Tooth number',
+        price: 'Price',
+        date: 'Date',
+        time: 'Time'
     };
 
     const setFieldValue = (name, value) => {
@@ -47,7 +46,7 @@ export default function AddAppointmentScreen ({ navigation }) {
                 if (e.response.data && e.response.data.message) {
                     e.response.data.message.forEach(err => {
                         const fieldName = err.param;
-                        alert(`Ошибка! Поле "${fieldsName[fieldName]}" указано неверно.`);
+                        alert(`Error! Field "${fieldsName[fieldName]}" is incorrect.`);
                     });
                 }
             });
@@ -56,7 +55,7 @@ export default function AddAppointmentScreen ({ navigation }) {
     return (
         <View style={{padding: 25, flex: 1}}>
             <Item style={{ marginLeft: 0 }} floatingLabel>
-                <Label>Номер зуба</Label>
+                <Label>Tooth number</Label>
                 <Input
                     onChange={handleInputChange.bind(this, 'dentNumber')}
                     value={values.fullname}
@@ -66,7 +65,7 @@ export default function AddAppointmentScreen ({ navigation }) {
                 />
             </Item>
             <Item style={{ marginTop: 20, marginLeft: 0 }} floatingLabel>
-                <Label>Цена</Label>
+                <Label>Price</Label>
                 <Input
                     onChange={handleInputChange.bind(this, 'price')}
                     value={values.phone}
@@ -77,16 +76,17 @@ export default function AddAppointmentScreen ({ navigation }) {
             <Item style={{ marginTop: 20, marginLeft: 0 }}>
                 <Picker
                     mode="dropdown"
-                    placeholder="Выберите диагноз"
+                    placeholder="Choose a diagnosis"
                     placeholderStyle={{ color: '#bfc6ea' }}
                     placeholderIconColor="#007aff"
                     style={{ width: '100%' }}
                     onValueChange={setFieldValue.bind(this, 'diagnosis')}
                     selectedValue={values.diagnosis}
                 >
-                    <Picker.Item label="пульпит" value="пульпит" />
-                    <Picker.Item label="удаление зуба" value="удаление зуба" />
-                    <Picker.Item label="спид" value="спид" />
+                    <Picker.Item label="Pulpitis" value="Pulpitis" />
+                    <Picker.Item label="Removal of a tooth" value="Removal of a tooth" />
+                    <Picker.Item label="Dead" value="Dead" />
+                    <Picker.Item label="Other" value="Other" />
                 </Picker>
             </Item>
             <Item style={{ marginTop: 20, marginLeft: 0 }}>
@@ -95,11 +95,11 @@ export default function AddAppointmentScreen ({ navigation }) {
                         <DatePicker
                             date={new Date()}
                             mode="date"
-                            placeholder="Дата"
+                            placeholder="Date"
                             format="YYYY-MM-DD"
                             minDate={new Date()}
-                            confirmBtnText="Сохранить"
-                            cancelBtnText="Отмена"
+                            confirmBtnText="OK"
+                            cancelBtnText="Cancel"
                             showIcon={false}
                             customStyles={{
                                 dateInput: {
@@ -116,11 +116,11 @@ export default function AddAppointmentScreen ({ navigation }) {
                     <View style={{ flex: 1 }}>
                         <DatePicker
                             mode="time"
-                            placeholder="Время"
+                            placeholder="Time"
                             format="HH:mm"
                             minDate={new Date()}
-                            confirmBtnText="Сохранить"
-                            cancelBtnText="Отмена"
+                            confirmBtnText="OK"
+                            cancelBtnText="Cancel"
                             showIcon={false}
                             customStyles={{
                                 dateInput: {
@@ -138,8 +138,8 @@ export default function AddAppointmentScreen ({ navigation }) {
             </Item>
             <View style={styles.buttonView}>
                 <MyButton onPress={onSubmit} color="#87CC6F">
-                    <Ionicons name="ios-add" size={24} color="white" />
-                    <Text>Добавить приема</Text>
+                    {/*<Ionicons name="ios-add" size={24} color="white" />*/}
+                    <Text>Add Reception</Text>
                 </MyButton>
             </View>
         </View>

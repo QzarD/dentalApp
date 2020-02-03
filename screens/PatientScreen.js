@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Linking} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Linking, FlatList} from 'react-native';
 import {Foundation, Ionicons} from '@expo/vector-icons';
-import MyButton from "../components/MyButton";
 import patientsApi from "../api/patients";
 import phoneFormat from "../utils/phoneFormat";
 import ButtonPlus from "../components/ButtonPlus";
 import Badge from "../components/Badge";
+import MyButton from "../components/MyButton";
 
 export default function PatientScreen({navigation}) {
     const [appointments, setAppointments] = useState([]);
@@ -36,7 +36,7 @@ export default function PatientScreen({navigation}) {
 
                 <View style={styles.PatientButtons}>
                     <View style={styles.FormulaButtonView}>
-                        <MyButton>Формула зубов</MyButton>
+                        <MyButton color='#2A86FF'>Tooth formula</MyButton>
                     </View>
                     <View style={styles.PhoneButtonView}>
                         <MyButton
@@ -56,10 +56,10 @@ export default function PatientScreen({navigation}) {
             <View style={styles.PatientAppointments}>
                 <View style={styles.container}>
                     {isLoading ? (
-                        <ActivityIndicator size="large" color="#2A86FF"/>
+                        <ActivityIndicator style={{marginTop: 40}} size="large" color="#2A86FF"/>
                     ) : (
-                        appointments.map(appointment => (
-                            <View style={styles.AppointmentCard} key={appointment._id}>
+                        <FlatList data={appointments} keyExtractor={item=>item._id} renderItem={({item})=>(
+                            <View style={styles.AppointmentCard} key={item._id}>
                                 <TouchableOpacity style={styles.MoreButton}>
                                     <Ionicons
                                         name="md-more"
@@ -70,9 +70,9 @@ export default function PatientScreen({navigation}) {
                                 <View style={styles.AppointmentCardRow}>
                                     <Ionicons name="md-medical" size={16} color="#A3A3A3"/>
                                     <Text style={styles.AppointmentCardLabel}>
-                                        Зуб:{' '}
+                                        Tooth:{' '}
                                         <Text style={{fontWeight: '600'}}>
-                                            {appointment.dentNumber}
+                                            {item.dentNumber}
                                         </Text>
                                     </Text>
                                 </View>
@@ -83,21 +83,21 @@ export default function PatientScreen({navigation}) {
                                         color="#A3A3A3"
                                     />
                                     <Text style={styles.AppointmentCardLabel}>
-                                        Диагноз:{' '}
-                                        <Text style={{fontWeight: '600'}}>
-                                            {appointment.diagnosis}
+                                        Diagnosis:{' '}
+                                        <Text style={{fontWeight: 'bold'}}>
+                                            {item.diagnosis}
                                         </Text>
                                     </Text>
                                 </View>
                                 <View style={[styles.AppointmentCardRow,
                                     {marginTop: 15, justifyContent: 'space-between'}]}>
                                     <Badge style={{width: 155}} active>
-                                        {appointment.date} - {appointment.time}
+                                        {item.date} - {item.time}
                                     </Badge>
-                                    <Badge color="green">{appointment.price} Р</Badge>
+                                    <Badge color="green">{item.price} $</Badge>
                                 </View>
                             </View>
-                        ))
+                        )}/>
                     )}
                 </View>
             </View>
@@ -139,15 +139,19 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 25,
         borderRadius: 10,
-        background: 'white',
+        backgroundColor: 'white',
         marginBottom: 20,
     },
     PatientDetails: {
         flex: 0.3,
+        padding: 20,
+        backgroundColor: 'white',
     },
     PatientAppointments: {
+        paddingTop: 20,
         flex: 1,
-        background: '#f8fafd',
+        backgroundColor: '#f8fafd',
+        paddingHorizontal: 20
     },
     FormulaButtonView: {
         flex: 1,
@@ -162,7 +166,7 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     PatientFullname: {
-        fontWeight: '800',
+        fontWeight: 'bold',
         fontSize: 24,
         lineHeight: 30,
         marginBottom: 3,

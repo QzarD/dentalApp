@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
         borderRadius: 18,
         fontWeight: '600',
         fontSize: 14,
-        width: 70,
+        minWidth: 70,
+        paddingHorizontal: 10,
         height: 32,
         textAlign: 'center',
         lineHeight: 30

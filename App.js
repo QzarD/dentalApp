@@ -12,21 +12,7 @@ import PatientsScreen from "./screens/PatientsScreen";
 const AppNavigator = createStackNavigator(
     {
         Home: {
-            screen: HomeScreen,
-            navigationOptions: {
-                title: 'Журнал приёмов', headerTintColor: '#2A86FF', headerStyle:{
-                    elevation: 0.8,
-                    shadowOpacity: 0.8
-                },
-                headerRight: () => (
-                    <TouchableOpacity
-                        onPress={navigation.navigate.bind(this, 'Patients')}
-                        style={{ marginRight: 20 }}
-                    >
-                        <Ionicons name="md-people" size={28} color="black" />
-                    </TouchableOpacity>
-                )
-            }
+            screen: HomeScreen
         },
         Patient: {
             screen: PatientScreen,
@@ -40,7 +26,7 @@ const AppNavigator = createStackNavigator(
         AddPatient: {
             screen: AddPatientScreen,
             navigationOptions: {
-                title: 'Добавить пациента',
+                title: 'Add patient',
                 headerTintColor: '#2A86FF',
                 headerStyle: {
                     elevation: 0.8,
@@ -51,7 +37,7 @@ const AppNavigator = createStackNavigator(
         AddAppointment: {
             screen: AddAppointmentScreen,
             navigationOptions: {
-                title: 'Добавить прием',
+                title: 'Add appointment',
                 headerTintColor: '#2A86FF',
                 headerStyle: {
                     elevation: 0.8,
@@ -62,7 +48,7 @@ const AppNavigator = createStackNavigator(
         Patients: {
             screen: PatientsScreen,
             navigationOptions: {
-                title: 'Пациенты',
+                title: 'Patients',
                 headerTintColor: '#2A86FF',
                 headerStyle: {
                     elevation: 0.8,

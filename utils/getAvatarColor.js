@@ -1,18 +1,18 @@
 export default letter => {
     const charCode = letter.charCodeAt();
-    if (charCode >= 1048 && charCode <= 1055) {
+    if ((charCode >= 1048 && charCode <= 1055)||(charCode >= 65 && charCode <= 70)) {
         return {
             background: '#F5D6D9',
             color: '#F38181',
         };
     }
-    if (charCode >= 1049 && charCode <= 1063) {
+    if ((charCode >= 1049 && charCode <= 1063)||(charCode >= 71 && charCode <= 75)) {
         return {
             background: '#F8ECD5',
             color: '#F1A32F',
         };
     }
-    if (charCode >= 1064 && charCode <= 1071) {
+    if ((charCode >= 1064 && charCode <= 1071)||(charCode >= 76 && charCode <= 83)) {
         return {
             background: '#DAD5F8',
             color: '#816CFF',

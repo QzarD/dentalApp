@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 export default function MyButton({children, color, onPress }) {
     return (
@@ -22,6 +22,6 @@ const styles = StyleSheet.create({
     text: {
         color: 'white',
         fontWeight: '400',
-        fontSize: 16
+        fontSize: 16,
     }
 });
