@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Item, Input, Label, Picker } from 'native-base';
 import DatePicker from 'react-native-datepicker';
 import appointmentsApi from '../api/appointments';
 import MyButton from "../components/MyButton";
 
-export default function AddAppointmentScreen ({ navigation }) {
+const AddAppointmentScreen = ({ navigation }) => {
+    const item=navigation.getParam('item');
+    const isEdit=navigation.getParam('isEdit');
     const [values, setValues] = useState({
-        diagnosis: 'Pulpitis',
-        dentNumber: '',
-        price: '',
-        date: null,
-        time: null,
-        patient: navigation.getParam('patientId')
+        diagnosis: isEdit ? item.diagnosis : 'Pulpitis',
+        dentNumber: isEdit ? String(item.dentNumber) : '',
+        price: isEdit ? String(item.price) : '',
+        date: isEdit ? item.date : null,
+        time: isEdit ? item.time : null,
+        patient: isEdit ? item.patient._id : navigation.getParam('patientId')
     });
 
     const fieldsName = {
@@ -58,7 +60,7 @@ export default function AddAppointmentScreen ({ navigation }) {
                 <Label>Tooth number</Label>
                 <Input
                     onChange={handleInputChange.bind(this, 'dentNumber')}
-                    value={values.fullname}
+                    value={values.dentNumber}
                     style={{ marginTop: 12 }}
                     keyboardType="numeric"
                     autoFocus
@@ -68,7 +70,7 @@ export default function AddAppointmentScreen ({ navigation }) {
                 <Label>Price</Label>
                 <Input
                     onChange={handleInputChange.bind(this, 'price')}
-                    value={values.phone}
+                    value={values.price}
                     keyboardType="numeric"
                     style={{ marginTop: 12 }}
                 />
@@ -93,7 +95,7 @@ export default function AddAppointmentScreen ({ navigation }) {
                 <View style={{flexDirection: 'row'}}>
                     <View style={{ flex: 1 }}>
                         <DatePicker
-                            date={new Date()}
+                            date={isEdit ? item.date : new Date()}
                             mode="date"
                             placeholder="Date"
                             format="YYYY-MM-DD"
@@ -146,9 +148,20 @@ export default function AddAppointmentScreen ({ navigation }) {
     );
 };
 
+AddAppointmentScreen.navigationOptions = ({navigation}) => ({
+    title: navigation.getParam('isEdit') ? 'Edit appointment' : 'Add appointment',
+    headerTintColor: '#2A86FF',
+    headerStyle: {
+        elevation: 0.8,
+        shadowOpacity: 0.8
+    }
+});
+
 const styles = StyleSheet.create({
     buttonView: {
         flex: 1,
         marginTop: 30
     }
 });
+
+export default AddAppointmentScreen

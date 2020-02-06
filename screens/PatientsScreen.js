@@ -64,7 +64,7 @@ export default function PatientScreen({navigation}) {
             {data && (
                 <>
                     <View style={{margin: 20}}>
-                        <Item style={{paddingLeft: 15, borderRadius: 30, paddingBottom: 10}} regular>
+                        <Item style={{paddingLeft: 15, borderRadius: 30}} regular>
                             <Input onChange={onSearch} placeholder="Search..."/>
                         </Item>
                     </View>

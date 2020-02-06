@@ -36,7 +36,7 @@ export default function PatientScreen({navigation}) {
 
                 <View style={styles.PatientButtons}>
                     <View style={styles.FormulaButtonView}>
-                        <MyButton color='#2A86FF'>Tooth formula</MyButton>
+                        <MyButton onPress={navigation.navigate.bind(this,'ToothFormula', {appointments:appointments})} color='#2A86FF'>Tooth formula</MyButton>
                     </View>
                     <View style={styles.PhoneButtonView}>
                         <MyButton

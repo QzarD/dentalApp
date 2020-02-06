@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AddPatientScreen from "./screens/AddPatientScreen";
 import AddAppointmentScreen from "./screens/AddAppointmentScreen";
 import PatientsScreen from "./screens/PatientsScreen";
+import ToothFormulaScreen from "./screens/ToothFormulaScreen";
 
 const AppNavigator = createStackNavigator(
     {
@@ -35,15 +36,7 @@ const AppNavigator = createStackNavigator(
             }
         },
         AddAppointment: {
-            screen: AddAppointmentScreen,
-            navigationOptions: {
-                title: 'Add appointment',
-                headerTintColor: '#2A86FF',
-                headerStyle: {
-                    elevation: 0.8,
-                    shadowOpacity: 0.8
-                }
-            }
+            screen: AddAppointmentScreen
         },
         Patients: {
             screen: PatientsScreen,
@@ -55,6 +48,9 @@ const AppNavigator = createStackNavigator(
                     shadowOpacity: 0.8
                 }
             }
+        },
+        ToothFormula: {
+            screen: ToothFormulaScreen
         }
     },
     {

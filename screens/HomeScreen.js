@@ -27,7 +27,6 @@ const HomeScreen=({navigation})=> {
 
     useEffect(fetchAppointments, [navigation.state.params]);
 
-    // TODO: Продумать удаление приемов
     const removeAppointment = id => {
         Alert.alert(
             'Delete Reception',
@@ -69,6 +68,8 @@ const HomeScreen=({navigation})=> {
                         <Swipeable
                             rightButtons={[
                                 <TouchableOpacity
+                                    onPress={navigation.navigate.bind(this,'AddAppointment',
+                                        {item:item, isEdit:true})}
                                     style={[styles.rightButton, {backgroundColor: '#B4C1CB'}]}>
                                     <Ionicons name="md-create" size={28} color="white"/>
                                 </TouchableOpacity>,
