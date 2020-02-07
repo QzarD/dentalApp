@@ -53,6 +53,21 @@ const AddAppointmentScreen = ({ navigation }) => {
                 }
             });
     };
+    const onSubmitEdit = () => {
+        appointmentsApi
+            .edit(item._id, values)
+            .then(() => {
+                navigation.navigate('Home', { lastUpdate: new Date() });
+            })
+            .catch(e => {
+                if (e.response.data && e.response.data.message) {
+                    e.response.data.message.forEach(err => {
+                        const fieldName = err.param;
+                        alert(`Error! Field "${fieldsName[fieldName]}" is incorrect.`);
+                    });
+                }
+            });
+    };
 
     return (
         <View style={{padding: 25, flex: 1}}>
@@ -139,7 +154,7 @@ const AddAppointmentScreen = ({ navigation }) => {
                 </View>
             </Item>
             <View style={styles.buttonView}>
-                <MyButton onPress={onSubmit} color="#87CC6F">
+                <MyButton onPress={isEdit ? onSubmitEdit : onSubmit} color="#87CC6F">
                     {/*<Ionicons name="ios-add" size={24} color="white" />*/}
                     <Text>Add Reception</Text>
                 </MyButton>
