@@ -10,17 +10,30 @@ const HomeScreen=({navigation})=> {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [lastUpdateTime, setlastUpdateTime] = useState(null);
+    const isHistory=navigation.getParam('isHistory');
 
     const fetchAppointments = () => {
         setIsLoading(true);
-        appointmentsApi
-            .get()
-            .then(({data}) => {
-                setData(data.data);
-            })
-            .finally(e => {
-                setIsLoading(false);
-            });
+        if (isHistory){
+            appointmentsApi
+                .getOld()
+                .then(({data}) => {
+                    setData(data.data);
+                })
+                .finally(e => {
+                    setIsLoading(false);
+                });
+        } else {
+            appointmentsApi
+                .get()
+                .then(({data}) => {
+                    setData(data.data);
+                })
+                .finally(e => {
+                    setIsLoading(false);
+                });
+        }
+
     };
 
     useEffect(fetchAppointments, []);
@@ -89,7 +102,9 @@ const HomeScreen=({navigation})=> {
                     )}
                 />
             )}
-            <ButtonPlus onPress={navigation.navigate.bind(this, 'Patients', {isAddAppointment: true})}/>
+            {isHistory ? null :
+                <ButtonPlus onPress={navigation.navigate.bind(this, 'Patients', {isAddAppointment: true})}/>
+            }
         </View>
     );
 }
@@ -122,19 +137,29 @@ const styles = StyleSheet.create({
 });
 
 HomeScreen.navigationOptions = ({ navigation }) => ({
-    title: 'Reception Journal',
+    title: navigation.getParam('isHistory') ? 'History' : 'Reception Journal',
     headerTintColor: '#2A86FF',
     headerStyle: {
         elevation: 0.8,
         shadowOpacity: 0.8
     },
     headerRight: () => (
-        <TouchableOpacity
-            onPress={navigation.navigate.bind(this, 'Patients')}
-            style={{ marginRight: 20 }}
-        >
-            <Ionicons name="md-people" size={28} color="black" />
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row'}}>
+            {navigation.getParam('isHistory') ? null :
+                <TouchableOpacity
+                    onPress={navigation.navigate.bind(this, 'HomeOld', {isHistory: true})}
+                    style={{ marginRight: 20 }}
+                >
+                    <Ionicons name="logo-buffer" size={28} color="black" />
+                </TouchableOpacity>
+            }
+            <TouchableOpacity
+                onPress={navigation.navigate.bind(this, 'Patients')}
+                style={{ marginRight: 20 }}
+            >
+                <Ionicons name="md-people" size={28} color="black" />
+            </TouchableOpacity>
+        </View>
     )
 });
 

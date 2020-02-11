@@ -8,7 +8,7 @@ import ButtonPlus from "../components/ButtonPlus";
 import {Item, Input} from 'native-base';
 import Appointment from "../components/Appointment";
 
-export default function PatientScreen({navigation}) {
+export default function PatientsScreen({navigation}) {
     const [data, setData] = useState(null);
     const [searchValue, setSearchValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);

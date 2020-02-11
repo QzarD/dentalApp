@@ -1,17 +1,35 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Linking, FlatList} from 'react-native';
-import {Foundation, Ionicons} from '@expo/vector-icons';
+import {StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Linking, FlatList, Alert} from 'react-native';
+import {AntDesign, Foundation, Ionicons, MaterialIcons} from '@expo/vector-icons';
 import patientsApi from "../api/patients";
 import phoneFormat from "../utils/phoneFormat";
 import ButtonPlus from "../components/ButtonPlus";
 import Badge from "../components/Badge";
 import MyButton from "../components/MyButton";
+import appointmentsApi from "../api/appointments";
 
 export default function PatientScreen({navigation}) {
     const [appointments, setAppointments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isAppointmentCardEdit, setIsAppointmentCardEdit] = useState(false);
 
     useEffect(() => {
+        const id = navigation.getParam('patient')._id;
+        patientsApi
+            .show(id)
+            .then(({data}) => {
+                setAppointments(data.data.appointments);
+                setIsLoading(false);
+                setIsAppointmentCardEdit(false)
+            })
+            .catch(() => {
+                setIsLoading(false);
+                setIsAppointmentCardEdit(false)
+            });
+    }, []);
+
+    const fetchAppointments = () => {
+        setIsLoading(true);
         const id = navigation.getParam('patient')._id;
         patientsApi
             .show(id)
@@ -22,7 +40,40 @@ export default function PatientScreen({navigation}) {
             .catch(() => {
                 setIsLoading(false);
             });
-    }, []);
+    };
+
+    useEffect(fetchAppointments, []);
+
+    useEffect(fetchAppointments, [navigation.state.params]);
+
+    const removeAppointment = id => {
+        Alert.alert(
+            'Delete Reception',
+            'Are you sure you want to delete the appointment?',
+            [
+                {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel'
+                },
+                {
+                    text: 'OK',
+                    onPress: () => {
+                        setIsLoading(true);
+                        appointmentsApi
+                            .remove(id)
+                            .then(() => {
+                                fetchAppointments();
+                            })
+                            .catch(() => {
+                                setIsLoading(false);
+                            });
+                    }
+                }
+            ],
+            {cancelable: false}
+        );
+    };
 
     return (
         <View style={{flex: 1}}>
@@ -60,7 +111,7 @@ export default function PatientScreen({navigation}) {
                     ) : (
                         <FlatList data={appointments} keyExtractor={item=>item._id} renderItem={({item})=>(
                             <View style={styles.AppointmentCard} key={item._id}>
-                                <TouchableOpacity style={styles.MoreButton}>
+                                <TouchableOpacity style={styles.MoreButton} onPress={()=>setIsAppointmentCardEdit(true)}>
                                     <Ionicons
                                         name="md-more"
                                         size={24}
@@ -96,6 +147,35 @@ export default function PatientScreen({navigation}) {
                                     </Badge>
                                     <Badge color="green">{item.price} $</Badge>
                                 </View>
+                                {isAppointmentCardEdit &&
+                                    <View style={styles.AppointmentCardEdit}>
+                                        <TouchableOpacity style={[{backgroundColor: '#B4C1CB'}, styles.CardEditButton]}
+                                                          onPress={navigation.navigate.bind(this,'AddAppointment',
+                                                              {item:item, isEdit:true})}>
+                                            <Ionicons
+                                                name="md-create"
+                                                size={28}
+                                                color="rgba(0, 0, 0, 0.4)"
+                                            />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={[{backgroundColor: '#F85A5A'}, styles.CardEditButton]}
+                                                          onPress={removeAppointment.bind(this, item._id)}>
+                                            <MaterialIcons
+                                                name="delete"
+                                                size={28}
+                                                color="rgba(0, 0, 0, 0.4)"
+                                            />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={[{backgroundColor: '#def0f9'}, styles.CardEditButton]}
+                                                          onPress={()=>setIsAppointmentCardEdit(false)}>
+                                            <Ionicons
+                                                name="ios-close"
+                                                size={38}
+                                                color="rgba(0, 0, 0, 0.4)"
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                }
                             </View>
                         )}/>
                     )}
@@ -174,5 +254,21 @@ const styles = StyleSheet.create({
     GrayText: {
         fontSize: 16,
         color: '#8b979f',
+    },
+    AppointmentCardEdit: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        height: 57,
+        width: 200,
+        borderRadius:10,
+        flexDirection: 'row',
+        justifyContent:'space-between'
+    },
+    CardEditButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width:66,
+        borderRadius:10,
     },
 });
