@@ -94,7 +94,9 @@ const HomeScreen=({navigation})=> {
                                 </TouchableOpacity>
                             ]}
                         >
-                            <Appointment navigate={navigation.navigate} item={item}/>
+                            {item.patient &&
+                                <Appointment navigate={navigation.navigate} item={item}/>
+                            }
                         </Swipeable>
                     )}
                     renderSectionHeader={({section: {title}}) => (
@@ -148,7 +150,7 @@ HomeScreen.navigationOptions = ({ navigation }) => ({
             {navigation.getParam('isHistory') ? null :
                 <TouchableOpacity
                     onPress={navigation.navigate.bind(this, 'HomeOld', {isHistory: true})}
-                    style={{ marginRight: 20 }}
+                    style={{ marginRight: 30 }}
                 >
                     <Ionicons name="logo-buffer" size={28} color="black" />
                 </TouchableOpacity>

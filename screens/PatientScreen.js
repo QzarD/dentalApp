@@ -53,7 +53,7 @@ export default function PatientScreen({navigation}) {
             [
                 {
                     text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
+                    /*onPress: () => console.log('Cancel Pressed'),*/
                     style: 'cancel'
                 },
                 {
@@ -87,7 +87,8 @@ export default function PatientScreen({navigation}) {
 
                 <View style={styles.PatientButtons}>
                     <View style={styles.FormulaButtonView}>
-                        <MyButton onPress={navigation.navigate.bind(this,'ToothFormula', {appointments:appointments})} color='#2A86FF'>Tooth formula</MyButton>
+                        <MyButton onPress={navigation.navigate.bind(this,'ToothFormula', {appointments:appointments})}
+                                  color='#2A86FF'>Tooth formula</MyButton>
                     </View>
                     <View style={styles.PhoneButtonView}>
                         <MyButton
@@ -263,7 +264,7 @@ const styles = StyleSheet.create({
         width: 200,
         borderRadius:10,
         flexDirection: 'row',
-        justifyContent:'space-between'
+        justifyContent:'space-between',
     },
     CardEditButton: {
         justifyContent: 'center',

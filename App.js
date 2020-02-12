@@ -100,15 +100,7 @@ const AppNavigator = createStackNavigator(
             }
         },
         AddPatient: {
-            screen: AddPatientScreen,
-            navigationOptions: {
-                title: 'Add patient',
-                headerTintColor: '#2A86FF',
-                headerStyle: {
-                    elevation: 0.8,
-                    shadowOpacity: 0.8,
-                }
-            }
+            screen: AddPatientScreen
         },
         AddAppointment: {
             screen: AddAppointmentScreen

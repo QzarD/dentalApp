@@ -81,7 +81,9 @@ export default function PatientsScreen({navigation}) {
                         renderItem={({item}) => (
                             <Swipeable
                                 rightButtons={[
-                                    <TouchableOpacity style={[styles.SwipeViewButton, {backgroundColor: '#B4C1CB'}]}>
+                                    <TouchableOpacity style={[styles.SwipeViewButton, {backgroundColor: '#B4C1CB'}]}
+                                                      onPress={navigation.navigate.bind(this,'AddPatient',
+                                                          {item:item, isEdit:true})}>
                                         <Ionicons name="md-create" size={28} color="white"/>
                                     </TouchableOpacity>,
                                     <TouchableOpacity

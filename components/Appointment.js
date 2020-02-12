@@ -25,7 +25,7 @@ export default function Appointment({isAddAppointment, navigate, item}) {
                 <Text style={styles.diagnosis}>{diagnosis}</Text>
             </View>
             {price && <Badge color='green' style={[styles.time, active && styles.activeTime]}>
-                {price}
+                {price} $
             </Badge>
             }
             {time && <Text active={active} style={[styles.time, active && styles.activeTime]}>

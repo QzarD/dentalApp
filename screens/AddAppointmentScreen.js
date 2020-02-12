@@ -60,14 +60,14 @@ const AddAppointmentScreen = ({ navigation }) => {
                 navigation.navigate('Home', { lastUpdate: new Date() });
             })
             .catch(e => {
-                if (e.response.data && e.response.data.message) {
-                    e.response.data.message.forEach(err => {
-                        const fieldName = err.param;
-                        alert(`Error! Field "${fieldsName[fieldName]}" is incorrect.`);
-                    });
-                }
+        if (e.response.data && e.response.data.message) {
+            e.response.data.message.forEach(err => {
+                const fieldName = err.param;
+                alert(`Error! Field "${fieldsName[fieldName]}" is incorrect.`);
             });
-    };
+        }
+    });
+};
 
     return (
         <View style={{padding: 25, flex: 1}}>
@@ -101,6 +101,10 @@ const AddAppointmentScreen = ({ navigation }) => {
                     selectedValue={values.diagnosis}
                 >
                     <Picker.Item label="Pulpitis" value="Pulpitis" />
+                    <Picker.Item label="Unattractive Smile" value="Unattractive Smile" />
+                    <Picker.Item label="Tooth Sensitivity" value="Tooth Sensitivity" />
+                    <Picker.Item label="Tooth Erosion" value="Tooth Erosion" />
+                    <Picker.Item label="Tooth Decay" value="Tooth Decay" />
                     <Picker.Item label="Removal of a tooth" value="Removal of a tooth" />
                     <Picker.Item label="Dead" value="Dead" />
                     <Picker.Item label="Other" value="Other" />
@@ -155,8 +159,10 @@ const AddAppointmentScreen = ({ navigation }) => {
             </Item>
             <View style={styles.buttonView}>
                 <MyButton onPress={isEdit ? onSubmitEdit : onSubmit} color="#87CC6F">
-                    {/*<Ionicons name="ios-add" size={24} color="white" />*/}
-                    <Text>Add Reception</Text>
+                    {isEdit
+                        ? <Text>Edit Reception</Text>
+                        : <Text><Ionicons name="ios-add" size={16} color="white"/>Add Reception</Text>
+                    }
                 </MyButton>
             </View>
         </View>
